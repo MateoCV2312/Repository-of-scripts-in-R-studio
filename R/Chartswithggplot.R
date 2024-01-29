@@ -100,7 +100,7 @@ datajobs <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted In
 
 fig(12,8)
 
-grafico4 <- ggplot(datajobs, aes(x=Vintage,y=Annual_Premium,color=Age)) +
+grafico4 <- ggplot(sample_n(datajobs, 500), aes(x=Vintage,y=Annual_Premium,color=Age)) +
   geom_point()+
   scale_color_gradient(low = 'yellow', high = 'red')+
   labs(y="Insurance Amount", 
@@ -164,4 +164,66 @@ grafico6
 
 ggsave("Lot Area vs House Price (Circle Costlier House with Less Area).png", 
        plot = grafico4, 
+       width = 12, height = 8, units = "in")
+
+# Chart 7
+
+file.choose()
+
+healthbuble <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//train_data health.csv")
+
+healthbuble$Deposit <- healthbuble$Admission_Deposit
+
+colnames(healthbuble)
+
+fig(12,8)
+
+grafico7 <- ggplot(sample_n(healthbuble,100), aes(x=Age,y=Stay)) +
+  geom_jitter(aes(size = Deposit),color="blue")+
+  labs(x="Age",
+       y="Stay", 
+       title=" Age vs Stay against Deposits")+ 
+  theme_bw()+
+  theme(plot.title = element_text(size=10),axis.text.x= element_text(size=7),
+        axis.text.y= element_text(size=7), axis.title=element_text(size=10))
+
+grafico7
+
+ggsave("Age vs Stay against Deposits.png", 
+       plot = grafico7, 
+       width = 12, height = 8, units = "in")
+
+# Chart 8
+
+fig(12,8)
+
+grafico8 <- ggplot(sample_n(healthbuble,200), aes(x=Age,y=Stay)) +
+  geom_jitter(aes(size=Deposit,color=Stay))+
+  labs(x="Age",
+       y="Stay", 
+       title="Age vs Stay against Deposits")+ 
+  theme_bw()+
+  theme(plot.title = element_text(size=22),axis.text.x= element_text(size=15),
+        axis.text.y= element_text(size=15), axis.title=element_text(size=18))+
+  scale_color_gradient(low = "blue", high = "red")
+
+grafico8
+
+# Chart 9
+
+fig(12,8)
+
+grafico9 <- ggplot(sample_n(healthbuble,200), aes(x=Age,y=Stay)) +
+  geom_jitter(aes(size=Deposit,color=Severity.of.Illness))+
+  labs(x="Age",
+       y="Stay", 
+       title="Age vs Stay against Severity")+ 
+  theme_bw()+
+  theme(plot.title = element_text(size=22),axis.text.x= element_text(size=15),
+        axis.text.y= element_text(size=15), axis.title=element_text(size=18))
+
+grafico9 
+
+ggsave("Age vs Stay against Severity.png", 
+       plot = grafico9, 
        width = 12, height = 8, units = "in")
