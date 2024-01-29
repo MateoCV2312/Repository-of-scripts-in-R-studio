@@ -58,4 +58,14 @@ chocolateRatingByReviewDate <- ggplot(chocolateData, aes(x= Review_Date, y = Rat
 
 ggsave("chocolateRatingByReviewDate.png", # the name of the file where it will be save
        plot = chocolateRatingByReviewDate, # what plot to save
-       height=6, width=10, units="in") # the size of the plot & units of the size	
+       height=6, width=10, units="in") # the size of the plot & units of the size
+
+# Cambiar el nombre de una columna #
+
+# Cambiando el nombre de una columna llamada "old_name" a "new_name" #
+
+names(dataframe)["old_name"] <- "new_name"
+
+# Cambiando el nombre de una columna llamada "old_name" a "new_name" #
+
+dataframe$new_name <- dataframe$old_name
