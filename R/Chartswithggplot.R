@@ -1,4 +1,4 @@
-# Charts with ggplot
+# Charts with ggplot ####
 
 # Install packages
 
@@ -33,12 +33,11 @@ library(lubridate)
 library(ggplot2)
 library(ggforce)
 library(ggalt)
-
+fig<-function(x,y){options(repr.plot.width = x, repr.plot.height = y)}
+# Scatter ####
 # Chart 1
 
 titanicdata <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//test.csv")
-
-fig<-function(x,y){options(repr.plot.width = x, repr.plot.height = y)}
 
 fig(12,8)
 
@@ -165,7 +164,7 @@ grafico6
 ggsave("Lot Area vs House Price (Circle Costlier House with Less Area).png", 
        plot = grafico4, 
        width = 12, height = 8, units = "in")
-
+# Bubble ####
 # Chart 7
 
 file.choose()
@@ -227,3 +226,56 @@ grafico9
 ggsave("Age vs Stay against Severity.png", 
        plot = grafico9, 
        width = 12, height = 8, units = "in")
+
+# Bar ####
+
+# Chart 10
+file.choose()
+
+university <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//Datasets//cwurData.csv")
+rm(University)
+fig(12,8)
+
+grafico10 <- ggplot(university[university$score>60,], aes(country))+
+  geom_bar(stat="count", width = 0.5, fill="darkblue")+
+  labs(x="Country",
+       y="Score", 
+       title="Country vs Score above 60 ")+ 
+  theme_bw()+
+  theme(plot.title = element_text(size=18),
+        axis.text.x= element_text(size=6),
+        axis.text.y= element_text(size=10), 
+        axis.title=element_text(size=18))
+
+grafico10
+
+ggsave("Country vs Score above 60.png", 
+       plot = grafico10, 
+       width = 12, height = 8, units = "in")
+
+# Chart 11
+
+file.choose()
+
+playstore_data <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//Datasets//Google-Playstore.csv")
+
+names(playstore_data)
+
+fig(12,8)
+
+grafico11 <- ggplot(playstore_data, aes(Category,Rating.Count,fill=Rating.Count))+
+  geom_bar(stat="identity", width = 0.5)+
+  geom_text(aes(label=Rating.Count), vjust=0) +
+  scale_fill_gradient(low = "green", high = "red")+
+  labs(x="Genre",
+       y="Count", 
+       title="Distribution of Playstore Genres ")+ 
+  theme_bw()+
+  theme(plot.title = element_text(size=10),axis.text.x= element_text(size=7,angle=90),
+        axis.text.y= element_text(size=7), axis.title=element_text(size=10))
+  
+grafico11
+
+playstore_data$Installs <- as.numeric(factor(playstore_data$Installs, levels = unique(playstore_data$Installs)))
+
+table(playstore_data$Category)
