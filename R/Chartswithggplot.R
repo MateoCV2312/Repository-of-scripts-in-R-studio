@@ -22,6 +22,7 @@ library(ggthemes) # visualisation
 library(ggalt) # encircle
 library(maps) #maps
 library(treemap)
+library(dplyr)
 library(ggdendro) # Dendogram
 # Interactivity
 library(crosstalk)
@@ -169,7 +170,7 @@ ggsave("Lot Area vs House Price (Circle Costlier House with Less Area).png",
 
 file.choose()
 
-healthbuble <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//train_data health.csv")
+healthbuble <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//Datasets/train_data stay and age.csv")
 
 healthbuble$Deposit <- healthbuble$Admission_Deposit
 
@@ -178,7 +179,7 @@ colnames(healthbuble)
 fig(12,8)
 
 grafico7 <- ggplot(sample_n(healthbuble,100), aes(x=Age,y=Stay)) +
-  geom_jitter(aes(size = Deposit),color="blue")+
+  geom_jitter(aes(size = Admission_Deposit),color="blue")+
   labs(x="Age",
        y="Stay", 
        title=" Age vs Stay against Deposits")+ 
@@ -197,23 +198,24 @@ ggsave("Age vs Stay against Deposits.png",
 fig(12,8)
 
 grafico8 <- ggplot(sample_n(healthbuble,200), aes(x=Age,y=Stay)) +
-  geom_jitter(aes(size=Deposit,color=Stay))+
+  geom_jitter(aes(size = Admission_Deposit, color = Stay))+
   labs(x="Age",
        y="Stay", 
        title="Age vs Stay against Deposits")+ 
   theme_bw()+
   theme(plot.title = element_text(size=22),axis.text.x= element_text(size=15),
         axis.text.y= element_text(size=15), axis.title=element_text(size=18))+
-  scale_color_gradient(low = "blue", high = "red")
-
+        scale_color_gradient(low = "blue", high = "red")
 grafico8
+
+str(healthbuble$Age)
 
 # Chart 9
 
 fig(12,8)
 
 grafico9 <- ggplot(sample_n(healthbuble,200), aes(x=Age,y=Stay)) +
-  geom_jitter(aes(size=Deposit,color=Severity.of.Illness))+
+  geom_jitter(aes(size=Admission_Deposit,color=Severity.of.Illness))+
   labs(x="Age",
        y="Stay", 
        title="Age vs Stay against Severity")+ 
@@ -257,25 +259,23 @@ ggsave("Country vs Score above 60.png",
 
 file.choose()
 
-playstore_data <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//Datasets//Google-Playstore.csv")
+playstore_data <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//Datasets//googleplaystore.csv")
 
 names(playstore_data)
 
 fig(12,8)
 
-grafico11 <- ggplot(playstore_data, aes(Category,Rating.Count,fill=Rating.Count))+
+grafico11 <- ggplot(playstore_data, aes(Genres,Count,fill=Count))+
   geom_bar(stat="identity", width = 0.5)+
-  geom_text(aes(label=Rating.Count), vjust=0) +
+  geom_text(aes(label=Count), vjust=0) +
   scale_fill_gradient(low = "green", high = "red")+
   labs(x="Genre",
        y="Count", 
        title="Distribution of Playstore Genres ")+ 
   theme_bw()+
-  theme(plot.title = element_text(size=10),axis.text.x= element_text(size=7,angle=90),
-        axis.text.y= element_text(size=7), axis.title=element_text(size=10))
-  
-grafico11
+  theme(plot.title = element_text(size=22),
+        axis.text.x= element_text(size=15,angle=90),
+        axis.text.y= element_text(size=15), 
+        axis.title=element_text(size=18))
 
-playstore_data$Installs <- as.numeric(factor(playstore_data$Installs, levels = unique(playstore_data$Installs)))
-
-table(playstore_data$Category)
+grafico11  
