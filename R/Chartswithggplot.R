@@ -34,7 +34,11 @@ library(lubridate)
 library(ggplot2)
 library(ggforce)
 library(ggalt)
+
 fig<-function(x,y){options(repr.plot.width = x, repr.plot.height = y)}
+
+setwd("C:/Users/MATEO/OneDrive/Documentos/Getting staRted Into R")
+
 # Scatter ####
 # Chart 1
 
@@ -255,7 +259,7 @@ ggsave("Country vs Score above 60.png",
        plot = grafico10, 
        width = 12, height = 8, units = "in")
 
-# Chart 11
+# Chart 11 - Bar chart - Gradient & Text
 
 file.choose()
 
@@ -279,3 +283,34 @@ grafico11 <- ggplot(playstore_data, aes(Genres,Count,fill=Count))+
         axis.title=element_text(size=18))
 
 grafico11  
+
+# Chart 12 - Bar chart - Stacked & Group
+
+netflixdata <- read.csv("C:/Users/MATEO/OneDrive/Documentos/Getting staRted Into R/Datasets/netflix_titles.csv")
+
+# by Xavier
+
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+animated_graph <- c("gganimate","ggplot2","dplyr","gapminder","ggthemes","gifski","readr","tidyr")
+
+ipak(animated_graph) # activar todos los paquetes
+
+ind_us_shows<-netflixdata%>%filter( (country == "United States" | country == "India" )& release_year>2015)
+
+ggplot(ind_us_shows, aes(release_year, fill = country)) + 
+  geom_bar(stat = "count", position = 'stack', width = 0.5) +  # Stack for stacked chart
+  labs(x = "Year",
+       y = "Count", 
+       title = "Distribution of Netflix Shows in India & US") + 
+  theme_bw() +
+  theme(plot.title = element_text(size = 10),
+        axis.text.x = element_text(size = 7, angle = 90),
+        axis.text.y = element_text(size = 7),
+        axis.title = element_text(size = 10))
+
