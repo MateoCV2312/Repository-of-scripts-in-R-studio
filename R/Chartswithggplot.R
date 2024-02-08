@@ -123,7 +123,7 @@ ggsave("Days associated with Company vs Amount to be paid against Age of Custome
 
 # Chart 5
 
-houseprice <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//train sale price.csv")
+houseprice <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R/Datasets/train sale price.csv")
 
 fig(12,8)
 
@@ -167,7 +167,7 @@ grafico6 <- ggplot(houseprice, aes(x=LotArea,y=SalePrice,color=LotShape)) +
 grafico6
 
 ggsave("Lot Area vs House Price (Circle Costlier House with Less Area).png", 
-       plot = grafico4, 
+       plot = grafico6, 
        width = 12, height = 8, units = "in")
 # Bubble ####
 # Chart 7
@@ -201,18 +201,20 @@ ggsave("Age vs Stay against Deposits.png",
 
 fig(12,8)
 
-grafico8 <- ggplot(sample_n(healthbuble,200), aes(x=Age,y=Stay)) +
-  geom_jitter(aes(size = Admission_Deposit, color = Stay))+
-  labs(x="Age",
+grafico8 <- ggplot(sample_n(healthbuble,200), aes(x=Age,y=Stay)) + 
+  geom_jitter(aes(size=Admission_Deposit,color=Stay))+ 
+  labs(x="Age", 
        y="Stay", 
        title="Age vs Stay against Deposits")+ 
-  theme_bw()+
-  theme(plot.title = element_text(size=22),axis.text.x= element_text(size=15),
-        axis.text.y= element_text(size=15), axis.title=element_text(size=18))+
-        scale_color_gradient(low = "blue", high = "red")
+  theme_bw()+ 
+  theme(plot.title = element_text(size=22),
+        axis.text.x= element_text(size=15), 
+        axis.text.y= element_text(size=15), 
+        axis.title=element_text(size=18))+ scale_color_gradient(low = "blue", high = "red")
+
 grafico8
 
-str(healthbuble$Age)
+str(healthbuble)
 
 # Chart 9
 
@@ -288,7 +290,7 @@ grafico11
 
 netflixdata <- read.csv("C:/Users/MATEO/OneDrive/Documentos/Getting staRted Into R/Datasets/netflix_titles.csv")
 
-# by Xavier
+# Chart 12.1
 
 ipak <- function(pkg){
   new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
@@ -303,7 +305,7 @@ ipak(animated_graph) # activar todos los paquetes
 
 ind_us_shows<-netflixdata%>%filter( (country == "United States" | country == "India" )& release_year>2015)
 
-ggplot(ind_us_shows, aes(release_year, fill = country)) + 
+grafico12.1 <- ggplot(ind_us_shows, aes(release_year, fill = country)) + 
   geom_bar(stat = "count", position = 'stack', width = 0.5) +  # Stack for stacked chart
   labs(x = "Year",
        y = "Count", 
@@ -314,3 +316,75 @@ ggplot(ind_us_shows, aes(release_year, fill = country)) +
         axis.text.y = element_text(size = 7),
         axis.title = element_text(size = 10))
 
+grafico12.1
+
+ggsave("Distribution of Netflix Shows in India & US.png", 
+       plot = grafico12.1, 
+       width = 12, height = 8, units = "in")
+
+# Chart 12.2
+
+grafico12.2 <- ggplot(ind_us_shows, aes(release_year, fill = country)) + 
+  geom_bar(stat = "count", position = 'dodge', width = 0.5) +  # Dodge for group
+  labs(x = "Year",
+       y = "Count", 
+       title = "Distribution of Netflix Shows in India & US (Group) ") + 
+  theme_bw() +
+  theme(plot.title = element_text(size = 10),
+        axis.text.x = element_text(size = 7, angle = 90),
+        axis.text.y = element_text(size = 7),
+        axis.title = element_text(size = 10))
+
+grafico12.2
+
+ggsave("Distribution of Netflix Shows in India & US (Group).png", 
+       plot = grafico12.2, 
+       width = 12, height = 8, units = "in")
+
+# chart 13 - Facet Bar
+
+Ind_US_UK_Aus_shows<-netflixdata%>%filter( (country == "United States" | country == "India" | country == "United Kingdom"| country == "Australia" )& release_year>2015)
+
+grafico13 <- ggplot(Ind_US_UK_Aus_shows, aes(release_year))+
+  geom_bar(stat="count", width = 0.5,aes(fill=country))+
+  labs(x="Genre",
+       y="Count", 
+       title="Distribution of Netflix Shows in India,US,UK & Australia")+ 
+  facet_wrap(~country)+
+  theme_bw()+
+  theme(plot.title = element_text(size=10),
+        axis.text.x= element_text(size=7,angle=90),
+        axis.text.y= element_text(size=7), 
+        axis.title=element_text(size=10))
+
+grafico13
+
+ggsave("Distribution of Netflix Shows in India,US,UK & Australia.png", 
+       plot = grafico13, 
+       width = 12, height = 8, units = "in")
+
+# Chart 14 - Horizontal Bar
+
+hospitaldata <- read.csv ("C:/Users/MATEO/OneDrive/Documentos/Getting staRted Into R/Datasets/Hospital code.csv") 
+
+hospitaldata <- as.data.frame(table(hospitaldata$Hospital_type_code))
+colnames(hospitaldata) <- c('hospital_code', 'count')
+
+grafico14 <- ggplot(hospitaldata, aes(x=hospital_code,y=count))+
+  geom_bar(stat="identity",width = 0.5,aes(fill=count))+ 
+  scale_fill_gradient(low = "red", high = "blue")+
+  coord_flip()+
+  labs(x="Hospital Code",
+       y="Count", 
+       title="Distribution of Hospital Type Code")+ 
+  theme_bw()+
+  theme(plot.title = element_text(size=10),
+        axis.text.x= element_text(size=7,angle=90),
+        axis.text.y= element_text(size=7), 
+        axis.title=element_text(size=10))
+
+grafico14
+
+ggsave("Distribution of Hospital Type Code.png", 
+       plot = grafico14, 
+       width = 12, height = 8, units = "in")
