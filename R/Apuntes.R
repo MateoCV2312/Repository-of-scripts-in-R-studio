@@ -69,3 +69,7 @@ names(dataframe)["old_name"] <- "new_name"
 # Cambiando el nombre de una columna llamada "old_name" a "new_name" #
 
 dataframe$new_name <- dataframe$old_name
+
+# Crear nuevo spript desde la consola #
+
+usethis::use_r("Examenfinal")

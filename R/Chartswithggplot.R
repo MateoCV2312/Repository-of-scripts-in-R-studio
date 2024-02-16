@@ -265,26 +265,30 @@ ggsave("Country vs Score above 60.png",
 
 file.choose()
 
-playstore_data <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//Datasets//googleplaystore.csv")
-
-names(playstore_data)
-
+genre_data <- read.csv("C://Users//MATEO//OneDrive//Documentos//Getting staRted Into R//Datasets//googleplaystore.csv")
+str(genre_data)
+  genre_data<-as.data.frame(table(genre_data$Genres))
+genre_data<-genre_data[order(-genre_data$Freq),] %>% top_n(10)
+colnames(genre_data)<-c('Genre','Count')
+str(genre_data)
 fig(12,8)
 
-grafico11 <- ggplot(playstore_data, aes(Genres,Count,fill=Count))+
+grafico11 <- ggplot(genre_data, aes(Genre,Count,fill=Count))+
   geom_bar(stat="identity", width = 0.5)+
   geom_text(aes(label=Count), vjust=0) +
   scale_fill_gradient(low = "green", high = "red")+
   labs(x="Genre",
-       y="Count", 
-       title="Distribution of Playstore Genres ")+ 
+       y="Count",
+       title="Distribution of Playstore Genres ")+
   theme_bw()+
-  theme(plot.title = element_text(size=22),
-        axis.text.x= element_text(size=15,angle=90),
-        axis.text.y= element_text(size=15), 
-        axis.title=element_text(size=18))
+  theme(plot.title = element_text(size=10),axis.text.x= element_text(size=7,angle=90),
+        axis.text.y= element_text(size=7), axis.title=element_text(size=10))
 
 grafico11  
+
+ggsave("Distribution of Playstore Genres - #11.png", 
+       plot = grafico11, 
+       width = 12, height = 8, units = "in")
 
 # Chart 12 - Bar chart - Stacked & Group
 
